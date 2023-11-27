@@ -15,3 +15,9 @@ from t08_flask_mysql.app.my_project.auth.domain.orders.device import Device
 from t08_flask_mysql.app.my_project.auth.domain.orders.song import Song
 from t08_flask_mysql.app.my_project.auth.domain.orders.playlist import Playlist
 from t08_flask_mysql.app.my_project.auth.domain.orders.artistlabel import ArtistLabel
+from t08_flask_mysql.app.my_project.auth.domain.orders.userdevice import UserDevice
+from t08_flask_mysql.app.my_project.auth.domain.orders.playlistsong import PlaylistSong
+from t08_flask_mysql.app.my_project.auth.domain.orders.songgenre import SongGenre
+from t08_flask_mysql.app.my_project.auth.domain.orders.listeninghistory import ListeningHistory
+from t08_flask_mysql.app.my_project.auth.domain.orders.currentlistening import CurrentListening
+from t08_flask_mysql.app.my_project.auth.domain.orders.currentlisteningdevice import CurrentListeningDevice

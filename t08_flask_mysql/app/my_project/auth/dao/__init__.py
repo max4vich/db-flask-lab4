@@ -14,6 +14,12 @@ from .orders.device_dao import DeviceDAO
 from .orders.song_dao import SongDAO
 from .orders.playlist_dao import PlaylistDAO
 from .orders.artistlabel_dao import ArtistLabelDAO
+from .orders.userdevice_dao import UserDeviceDAO
+from .orders.playlistsong_dao import PlaylistSongDAO
+from .orders.songgenre_dao import SongGenreDAO
+from .orders.listeninghistory_dao import ListeningHistoryDAO
+from .orders.currentlistening_dao import CurrentListeningDAO
+from .orders.currentlisteningdevice_dao import CurrentListeningDeviceDAO
 
 user_dao = UserDAO()
 artist_dao = ArtistDAO()
@@ -24,3 +30,9 @@ device_dao = DeviceDAO()
 song_dao = SongDAO()
 playlist_dao = PlaylistDAO()
 artistlabel_dao = ArtistLabelDAO()
+userdevice_dao = UserDeviceDAO()
+playlistsong_dao = PlaylistSongDAO()
+songgenre_dao = SongGenreDAO()
+listeninghistory_dao = ListeningHistoryDAO()
+currentlistening_dao = CurrentListeningDAO()
+currentlisteningdevice_dao = CurrentListeningDeviceDAO()

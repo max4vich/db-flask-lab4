@@ -13,6 +13,12 @@ from .orders.device_controller import DeviceController
 from .orders.song_controller import SongController
 from .orders.playlist_controller import PlaylistController
 from .orders.artistlabel_controller import ArtistLabelController
+from .orders.userdevice_controller import UserDeviceController
+from .orders.playlistsong_controller import PlaylistSongController
+from .orders.songgenre_controller import SongGenreController
+from .orders.listeninghistory_controller import ListeningHistoryController
+from .orders.currentlistening_controller import CurrentListeningController
+from .orders.currentlisteningdevice_controller import CurrentListeningDeviceController
 
 user_controller = UserController()
 artist_controller = ArtistController()
@@ -23,3 +29,9 @@ device_controller = DeviceController()
 song_controller = SongController()
 playlist_controller = PlaylistController()
 artistlabel_controller = ArtistLabelController()
+userdevice_controller = UserDeviceController()
+playlistsong_controller = PlaylistSongController()
+songgenre_controller = SongGenreController()
+listeninghistory_controller = ListeningHistoryController()
+currentlistening_controller = CurrentListeningController()
+currentlisteningdevice_controller = CurrentListeningDeviceController()

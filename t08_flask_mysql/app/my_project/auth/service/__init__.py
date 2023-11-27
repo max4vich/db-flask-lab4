@@ -13,6 +13,12 @@ from .orders.device_service import DeviceService
 from .orders.song_service import SongService
 from .orders.playlist_service import PlaylistService
 from .orders.artistlabel_service import ArtistLabelService
+from .orders.userdevice_service import UserDeviceService
+from .orders.playlistsong_service import PlaylistSongService
+from .orders.songgenre_service import SongGenreService
+from .orders.listeninghistory_service import ListeningHistoryService
+from .orders.currentlistening_service import CurrentListeningService
+from .orders.currentlisteningdevice_service import CurrentListeningDeviceService
 
 user_service = UserService()
 artist_service = ArtistService()
@@ -23,4 +29,9 @@ device_service = DeviceService()
 song_service = SongService()
 playlist_service = PlaylistService()
 artistlabel_service = ArtistLabelService()
-
+userdevice_service = UserDeviceService()
+playlistsong_service = PlaylistSongService()
+songgenre_service = SongGenreService()
+listeninghistory_service = ListeningHistoryService()
+currentlistening_service = CurrentListeningService()
+currentlisteningdevice_service = CurrentListeningDeviceService()

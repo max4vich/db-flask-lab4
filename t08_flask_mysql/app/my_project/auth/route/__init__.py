@@ -25,6 +25,12 @@ def register_routes(app: Flask) -> None:
     from .orders.song_route import song_bp
     from .orders.playlist_route import playlist_bp
     from .orders.artistlabel_route import artistlabel_bp
+    from .orders.userdevice_route import userdevice_bp
+    from .orders.playlistsong_route import playlistsong_bp
+    from .orders.songgenre_route import songgenre_bp
+    from .orders.listeninghistory_route import listeninghistories_bp
+    from .orders.currentlistening_route import currentlistening_bp
+    from .orders.currentlisteningdevice_route import currentlisteningdevice_bp
 
     app.register_blueprint(user_bp)
     app.register_blueprint(artist_bp)
@@ -35,3 +41,9 @@ def register_routes(app: Flask) -> None:
     app.register_blueprint(song_bp)
     app.register_blueprint(playlist_bp)
     app.register_blueprint(artistlabel_bp)
+    app.register_blueprint(userdevice_bp)
+    app.register_blueprint(playlistsong_bp)
+    app.register_blueprint(songgenre_bp)
+    app.register_blueprint(listeninghistories_bp)
+    app.register_blueprint(currentlistening_bp)
+    app.register_blueprint(currentlisteningdevice_bp)
