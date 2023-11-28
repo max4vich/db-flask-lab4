@@ -21,6 +21,8 @@ class Album(db.Model, IDto):
     title = db.Column(db.String(45))
     artist_id = db.Column(db.Integer, db.ForeignKey('artist.id'))
 
+    songs = db.relationship('Song', backref='album')
+
     def __repr__(self) -> str:
         return f"Album({self.id}, '{self.title}', {self.artist_id})"
 
@@ -29,10 +31,18 @@ class Album(db.Model, IDto):
         Puts domain object into DTO without relationship
         :return: DTO object as dictionary
         """
+        songs_list = [songs.put_into_dto() for songs in self.songs]
         return {
             "id": self.id,
             "title": self.title,
-            "artist_id": self.artist_id
+            "artist_id": self.artist_id,
+            "songs_list": songs_list
+            # "artist_info": {
+            #                 "id": self.artist.id,
+            #                 "name": self.artist.name,
+            #                 "nick": self.artist.nick
+            #             },
+            # "songs_list": [song.put_into_dto() for song in self.songs]
         }
 
     @staticmethod
@@ -44,6 +54,6 @@ class Album(db.Model, IDto):
         """
         obj = Album(
             title=dto_dict.get("title"),
-            artist_id = dto_dict.get("artist_id")
+            artist_id = dto_dict.get("artist_id"),
         )
         return obj

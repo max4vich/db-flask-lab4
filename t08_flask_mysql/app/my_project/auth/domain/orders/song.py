@@ -22,9 +22,10 @@ class Song(db.Model, IDto):
     duration = db.Column(db.Time)
     album_id = db.Column(db.Integer, db.ForeignKey('album.id'))
 
-
-    # client_type_id = db.Column(db.Integer, db.ForeignKey('client_type.id'), nullable=True)
-    # client_type = db.relationship("ClientType", backref="clients")  # only on the child class
+    song_genres = db.relationship('SongGenre', backref='song')
+    listening_histories = db.relationship('ListeningHistory', backref='song')
+    current_listenings = db.relationship('CurrentListening', backref='song')
+    playlist_songs = db.relationship('PlaylistSong', backref='song')
 
     def __repr__(self) -> str:
         return f"Song({self.id}, '{self.title}', '{self.duration}', '{self.album_id}')"
@@ -34,11 +35,20 @@ class Song(db.Model, IDto):
         Puts domain object into DTO without relationship
         :return: DTO object as dictionary
         """
+        song_genres_list = [song_genres.put_into_dto() for song_genres in self.song_genres]
+        listening_histories_list = [listening_histories.put_into_dto() for listening_histories in self.listening_histories]
+        current_listenings_list = [current_listenings.put_into_dto() for current_listenings in self.current_listenings]
+        playlist_songs_list = [playlist_songs.put_into_dto() for playlist_songs in self.playlist_songs]
         return {
             "id": self.id,
             "title": self.title,
             "duration": self.duration.strftime("%H:%M:%S"),
-            "album_id": self.album_id
+            "album_id": self.album_id,
+            "album_name": self.album.title,
+            "song_genres_list": song_genres_list,
+            "listening_histories_list": listening_histories_list,
+            "current_listenings_list": current_listenings_list,
+            "playlist_songs_list": playlist_songs_list
         }
 
     @staticmethod
@@ -51,6 +61,6 @@ class Song(db.Model, IDto):
         obj = Song(
             title=dto_dict.get("title"),
             duration=dto_dict.get("duration"),
-            album_id=dto_dict.get("album_id")
+            album_id=dto_dict.get("album_id"),
         )
         return obj

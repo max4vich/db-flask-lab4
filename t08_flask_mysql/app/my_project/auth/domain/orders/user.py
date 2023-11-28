@@ -21,8 +21,10 @@ class User(db.Model, IDto):
     username = db.Column(db.String(45))
     email = db.Column(db.String(45))
 
-    # client_type_id = db.Column(db.Integer, db.ForeignKey('client_type.id'), nullable=True)
-    # client_type = db.relationship("ClientType", backref="clients")  # only on the child class
+    listening_histories = db.relationship('ListeningHistory', backref='user')
+    playlists = db.relationship('Playlist', backref='user')
+    current_listenings = db.relationship('CurrentListening', backref='user')
+    user_devices = db.relationship('UserDevice', backref='user')
 
     def __repr__(self) -> str:
         return f"User({self.id}, '{self.username}', '{self.email}')"
@@ -32,10 +34,18 @@ class User(db.Model, IDto):
         Puts domain object into DTO without relationship
         :return: DTO object as dictionary
         """
+        listening_histories_list = [listening_histories.put_into_dto() for listening_histories in self.listening_histories]
+        playlists_list = [playlists.put_into_dto() for playlists in self.playlists]
+        current_listenings_list = [current_listenings.put_into_dto() for current_listenings in self.playlists]
+        user_devices_list = [user_devices.put_into_dto() for user_devices in self.user_devices]
         return {
             "id": self.id,
             "username": self.username,
             "email": self.email,
+            "listening_histories_list": listening_histories_list,
+            "playlists_list": playlists_list,
+            "current_listenings_list": current_listenings_list,
+            "user_devices_list": user_devices_list
         }
 
     @staticmethod

@@ -18,12 +18,12 @@ class ListeningHistory(db.Model, IDto):
     """
     __tablename__ = "listeninghistory"
 
-    user_id = db.Column(db.Integer, db.ForeignKey('playlist.id'), primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     song_id = db.Column(db.Integer, db.ForeignKey('song.id'), primary_key=True)
     listening_date_time = db.Column(db.DateTime, default=datetime.datetime.now, nullable=False)
 
     def __repr__(self) -> str:
-        return f"PlaylistSong({self.user_id}, '{self.song_id}', '{self.listening_date_time}')"
+        return f"ListeningHistory({self.user_id}, '{self.song_id}', '{self.listening_date_time}')"
 
     def put_into_dto(self) -> Dict[str, Any]:
         """
@@ -45,7 +45,7 @@ class ListeningHistory(db.Model, IDto):
         """
         obj = ListeningHistory(
             user_id=dto_dict.get("user_id"),
-            song_id=dto_dict.get("song_id"),
+            song_id=dto_dict.get("song_id "),
             listening_date_time=dto_dict.get("listening_date_time")
         )
         return obj

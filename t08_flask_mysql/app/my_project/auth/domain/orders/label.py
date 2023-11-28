@@ -21,6 +21,8 @@ class Label(db.Model, IDto):
     name = db.Column(db.String(45))
     country = db.Column(db.String(45))
 
+    artist_labels = db.relationship('ArtistLabel', backref='label')
+
     def __repr__(self) -> str:
         return f"Label({self.id}, '{self.name}', {self.country})"
 
@@ -29,10 +31,18 @@ class Label(db.Model, IDto):
         Puts domain object into DTO without relationship
         :return: DTO object as dictionary
         """
+        artist_labels_list = [artist_labels.put_into_dto() for artist_labels in self.artist_labels]
         return {
             "id": self.id,
             "name": self.name,
-            "country": self.country
+            "country": self.country,
+            "artist_labels_list": artist_labels_list
+            # "label_artists_list": [{
+            #     "id": artist_label.artist.id,
+            #     "name": artist_label.artist.name,
+            #     "nick": artist_label.artist.nick,
+            #     "albums_list": [album.put_into_dto() for album in artist_label.artist.albums],
+            # } for artist_label in self.label_artists]
         }
 
     @staticmethod

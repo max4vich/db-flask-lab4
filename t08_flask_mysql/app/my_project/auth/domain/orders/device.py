@@ -21,8 +21,8 @@ class Device(db.Model, IDto):
     name = db.Column(db.String(45))
     device_type = db.Column(db.String(45))
 
-    # client_type_id = db.Column(db.Integer, db.ForeignKey('client_type.id'), nullable=True)
-    # client_type = db.relationship("ClientType", backref="clients")  # only on the child class
+    user_devices = db.relationship('UserDevice', backref='device')
+    current_listening_devices = db.relationship('CurrentListeningDevice', backref='currentlistening')
 
     def __repr__(self) -> str:
         return f"Device({self.id}, '{self.name}', '{self.device_type}')"
@@ -32,10 +32,14 @@ class Device(db.Model, IDto):
         Puts domain object into DTO without relationship
         :return: DTO object as dictionary
         """
+        user_devices_list = [user_devices.put_into_dto() for user_devices in self.user_devices]
+        current_listening_devices_list = [current_listening_devices.put_into_dto() for current_listening_devices in self.current_listening_devices]
         return {
             "id": self.id,
             "name": self.name,
             "device_type": self.device_type,
+            "user_devices_list": user_devices_list,
+            "current_listening_devices_list": current_listening_devices_list
         }
 
     @staticmethod

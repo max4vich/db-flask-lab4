@@ -21,7 +21,7 @@ class SongGenre(db.Model, IDto):
     genre_id = db.Column(db.Integer, db.ForeignKey('genre.id'), primary_key=True)
 
     def __repr__(self) -> str:
-        return f"UserDevice({self.song_id}, '{self.genre_id}')"
+        return f"SongGenre({self.song_id}, '{self.genre_id}')"
 
     def put_into_dto(self) -> Dict[str, Any]:
         """

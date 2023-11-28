@@ -21,6 +21,7 @@ class Genre(db.Model, IDto):
     name = db.Column(db.String(45))
     description = db.Column(db.String(255))
 
+    song_genres = db.relationship('SongGenre', backref='genre')
     # client_type_id = db.Column(db.Integer, db.ForeignKey('client_type.id'), nullable=True)
     # client_type = db.relationship("ClientType", backref="clients")  # only on the child class
 
@@ -32,10 +33,12 @@ class Genre(db.Model, IDto):
         Puts domain object into DTO without relationship
         :return: DTO object as dictionary
         """
+        song_genres_list = [song_genres.put_into_dto() for song_genres in self.song_genres]
         return {
             "id": self.id,
             "name": self.name,
             "description": self.description,
+            "song_genres_list": song_genres_list
         }
 
     @staticmethod

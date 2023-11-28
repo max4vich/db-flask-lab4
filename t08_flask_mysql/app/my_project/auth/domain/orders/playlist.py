@@ -21,18 +21,22 @@ class Playlist(db.Model, IDto):
     name = db.Column(db.String(45))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+    playlist_songs = db.relationship('PlaylistSong', backref='playlist')
+
     def __repr__(self) -> str:
-        return f"Album({self.id}, '{self.name}', {self.user_id})"
+        return f"Playlist({self.id}, '{self.name}', {self.user_id})"
 
     def put_into_dto(self) -> Dict[str, Any]:
         """
         Puts domain object into DTO without relationship
         :return: DTO object as dictionary
         """
+        playlist_songs_list = [playlist_songs.put_into_dto() for playlist_songs in self.playlist_songs]
         return {
             "id": self.id,
             "name": self.name,
-            "user_id": self.user_id
+            "user_id": self.user_id,
+            "playlist_songs_list": playlist_songs_list
         }
 
     @staticmethod

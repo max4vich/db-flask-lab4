@@ -15,7 +15,7 @@ genre_bp = Blueprint('genres', __name__, url_prefix='/genres')
 
 
 @genre_bp.get('')
-def get_all_albums() -> Response:
+def get_all_genres() -> Response:
     """
     Gets all objects from table using Service layer.
     :return: Response object
@@ -24,7 +24,7 @@ def get_all_albums() -> Response:
 
 
 @genre_bp.post('')
-def create_album() -> Response:
+def create_genre() -> Response:
     """
     Gets all objects from table using Service layer.
     :return: Response object
@@ -36,16 +36,16 @@ def create_album() -> Response:
 
 
 @genre_bp.get('/<int:genre_id>')
-def get_album(album_id: int) -> Response:
+def get_genre(genre_id: int) -> Response:
     """
     Gets client by ID.
     :return: Response object
     """
-    return make_response(jsonify(genre_controller.find_by_id(album_id)), HTTPStatus.OK)
+    return make_response(jsonify(genre_controller.find_by_id(genre_id)), HTTPStatus.OK)
 
 
 @genre_bp.put('/<int:genre_id>')
-def update_album(genre_id: int) -> Response:
+def update_genre(genre_id: int) -> Response:
     """
     Updates client by ID.
     :return: Response object
@@ -57,7 +57,7 @@ def update_album(genre_id: int) -> Response:
 
 
 @genre_bp.patch('/<int:genre_id>')
-def patch_album(genre_id: int) -> Response:
+def patch_genre(genre_id: int) -> Response:
     """
     Patches client by ID.
     :return: Response object
@@ -68,7 +68,7 @@ def patch_album(genre_id: int) -> Response:
 
 
 @genre_bp.delete('/<int:genre_id>')
-def delete_album(genre_id: int) -> Response:
+def delete_genre(genre_id: int) -> Response:
     """
     Deletes client by ID.
     :return: Response object
