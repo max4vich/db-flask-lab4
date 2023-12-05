@@ -19,6 +19,7 @@ from .orders.songgenre_controller import SongGenreController
 from .orders.listeninghistory_controller import ListeningHistoryController
 from .orders.currentlistening_controller import CurrentListeningController
 from .orders.currentlisteningdevice_controller import CurrentListeningDeviceController
+from .orders.device_info_controller import DeviceInfoController
 
 user_controller = UserController()
 artist_controller = ArtistController()
@@ -35,3 +36,4 @@ songgenre_controller = SongGenreController()
 listeninghistory_controller = ListeningHistoryController()
 currentlistening_controller = CurrentListeningController()
 currentlisteningdevice_controller = CurrentListeningDeviceController()
+device_info_controller = DeviceInfoController()

@@ -10,11 +10,7 @@ CREATE TRIGGER before_insert_device_info
 BEFORE INSERT ON device_info FOR EACH ROW
 BEGIN
     DECLARE device_exists INT;
-
-    -- Check if the device_id exists in the device table
     SELECT COUNT(*) INTO device_exists FROM device WHERE id = NEW.device_id;
-
-    -- If device_id does not exist, raise an error and prevent the insertion
     IF device_exists = 0 THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Error: Device does not exist in the device table';

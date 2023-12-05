@@ -5,15 +5,25 @@ apavelchak@gmail.com
 """
 
 from http import HTTPStatus
-
+from flask import json
 from flask import Blueprint, jsonify, Response, request, make_response
 
 from t08_flask_mysql.app.my_project.auth.controller import song_controller
+from t08_flask_mysql.app.my_project.auth.dao import song_dao
 from t08_flask_mysql.app.my_project.auth.domain import Song
 
 song_bp = Blueprint('songs', __name__, url_prefix='/songs')
 
 
+@song_bp.get('/max_duration')
+def get_max_duration() -> Response:
+    """
+    Gets the maximum duration of songs.
+    :return: Response object
+    """
+    max_duration = song_dao.get_max_duration()
+    max_duration_str = max_duration.strftime("%H:%M:%S")  # Convert time to string
+    return make_response(jsonify({"max_duration": max_duration_str}), HTTPStatus.OK)
 @song_bp.get('')
 def get_all_songs() -> Response:
     """

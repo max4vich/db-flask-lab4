@@ -13,3 +13,12 @@ class ArtistLabelController(GeneralController):
     Realisation of ClientType controller.
     """
     _service = artistlabel_service
+
+    @classmethod
+    def insert_into_artist_label(cls, artist_name: str, label_name: str) -> None:
+        """
+        Inserts a record into the artistlabel table.
+        :param artist_name: Name of the artist
+        :param label_name: Name of the label
+        """
+        cls._service.insert_into_artist_label(artist_name, label_name)

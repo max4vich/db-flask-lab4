@@ -9,10 +9,38 @@ from http import HTTPStatus
 from flask import Blueprint, jsonify, Response, request, make_response
 
 from t08_flask_mysql.app.my_project.auth.controller import label_controller
+from t08_flask_mysql.app.my_project.auth.dao import label_dao
 from t08_flask_mysql.app.my_project.auth.domain import Label
 
 label_bp = Blueprint('labels', __name__, url_prefix='/labels')
 
+@label_bp.post('/create-database-and-tables')
+def create_database_and_tables() -> Response:
+    """
+    Creates databases and tables based on Label names.
+    :return: Response object
+    """
+    try:
+        label_dao.create_database_and_tables()
+        return make_response(jsonify({"message": "Databases and tables created successfully"}), 200)
+    except Exception as e:
+        return make_response(jsonify({"error": str(e)}), 500)
+
+@label_bp.post('/create-with-params')
+def create_label_with_params() -> Response:
+    """
+    Creates a new label with parameterized insertion.
+    :return: Response object
+    """
+    content = request.get_json()
+    name = content.get("name")
+    country = content.get("country")
+
+    try:
+        label = label_controller.create_label(name, country)
+        return make_response(jsonify(label.put_into_dto()), HTTPStatus.CREATED)
+    except ValueError as e:
+        return make_response(jsonify({"error": str(e)}), HTTPStatus.BAD_REQUEST)
 
 @label_bp.get('')
 def get_all_labels() -> Response:

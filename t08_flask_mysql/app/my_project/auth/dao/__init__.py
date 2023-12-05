@@ -20,6 +20,7 @@ from .orders.songgenre_dao import SongGenreDAO
 from .orders.listeninghistory_dao import ListeningHistoryDAO
 from .orders.currentlistening_dao import CurrentListeningDAO
 from .orders.currentlisteningdevice_dao import CurrentListeningDeviceDAO
+from .orders.device_info_dao import DeviceInfoDAO
 
 user_dao = UserDAO()
 artist_dao = ArtistDAO()
@@ -36,3 +37,4 @@ songgenre_dao = SongGenreDAO()
 listeninghistory_dao = ListeningHistoryDAO()
 currentlistening_dao = CurrentListeningDAO()
 currentlisteningdevice_dao = CurrentListeningDeviceDAO()
+device_info_dao = DeviceInfoDAO()

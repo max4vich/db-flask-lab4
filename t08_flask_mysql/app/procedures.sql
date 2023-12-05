@@ -1,23 +1,17 @@
 -- Забезпечити параметризовану вставку нових значень у таблицю
--- Скрипт
 DROP PROCEDURE IF EXISTS insert_label;
 
 DELIMITER $$
-
 CREATE PROCEDURE insert_label(
   IN name VARCHAR(255),
   IN country VARCHAR(255)
 )
 BEGIN
-
-  -- Вставка нового рядка
   INSERT INTO `iot_db`.`label`
   (`name`, `country`)
   VALUES
   (name, country);
-
 END $$
-
 DELIMITER ;
 
 -- Використання скрипта
@@ -26,12 +20,11 @@ CALL insert_label('Lisnyi Leshyi', 'Україна');
 
 
 
-
-
 -- Скрипт для створення пакета з 10 рядків
-DROP PROCEDURE IF EXISTS InsertRows;
+DROP PROCEDURE IF EXISTS insert_rows_into_artists;
+
 DELIMITER $$
-CREATE PROCEDURE InsertRows()
+CREATE PROCEDURE insert_rows_into_artists()
 BEGIN
   DECLARE i INT DEFAULT 1;
   WHILE i <= 10 DO
@@ -41,40 +34,86 @@ BEGIN
 END$$
 DELIMITER ;
 
-CALL InsertRows();
-
--- Використання пакета
-CALL insert_multiple_strings('album');
+-- Використання скрипта
+CALL insert_rows_into_artists();
 
 
 
--- Скрипт для агрегаційних операцій над duration
+-- Скрипт для користувацької функції агрегаційних операцій над duration
 DELIMITER //
-
-CREATE PROCEDURE GetDurationStats()
+CREATE FUNCTION GetMaxDuration() RETURNS TIME DETERMINISTIC
 BEGIN
     DECLARE max_duration TIME;
-    DECLARE min_duration TIME;
-    DECLARE total_duration TIME;
-    DECLARE avg_duration TIME;
-    DECLARE song_count INT;
-
     SELECT MAX(duration) INTO max_duration FROM song;
-    SELECT MIN(duration) INTO min_duration FROM song;
-    SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(duration))) INTO total_duration FROM song;
-    SELECT SEC_TO_TIME(AVG(TIME_TO_SEC(duration))) INTO avg_duration FROM song;
-    SELECT COUNT(*) INTO song_count FROM song;
-	
-    SELECT 
-        max_duration AS Max_Duration,
-        min_duration AS Min_Duration,
-        total_duration AS Total_Duration,
-        avg_duration AS Avg_Duration,
-        song_count AS Song_Count;
+    RETURN max_duration;
 END //
-
 DELIMITER ;
 
 -- Використання скрипта
-CALL GetDurationStats();
+SELECT 
+    GetMaxDuration() AS Max_Duration
+
+
+
+-- Скрипт з курсором
+
+DELIMITER //
+CREATE PROCEDURE ProcCursor()
+BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE NameT CHAR(45);
+    DECLARE i INT;
+
+    DECLARE St_Cursor CURSOR FOR SELECT name FROM label;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    OPEN St_Cursor;
+
+    myLoop: LOOP
+        FETCH St_Cursor INTO NameT;
+        IF done = TRUE THEN
+            LEAVE myLoop;
+        END IF;
+
+        SET @temp_query = CONCAT('CREATE DATABASE `', NameT, '`');
+        PREPARE myquery FROM @temp_query;
+        EXECUTE myquery;
+        DEALLOCATE PREPARE myquery;
+
+        SET i = 1;
+        WHILE i <= FLOOR(1 + RAND() * 9) DO
+            SET @temp_query = CONCAT('CREATE TABLE `', NameT, '`.`', NameT, i, '` (id INT)');
+            PREPARE myquery FROM @temp_query;
+            EXECUTE myquery;
+            DEALLOCATE PREPARE myquery;
+            SET i = i + 1;
+        END WHILE;
+    END LOOP;
+
+    CLOSE St_Cursor;
+END //
+DELIMITER ;
+
+
+
+-- Скрипт з M:M
+DELIMITER //
+CREATE PROCEDURE InsertIntoArtistLabel(IN artist_name VARCHAR(45), IN label_name VARCHAR(45))
+BEGIN
+  DECLARE artist_id INT;
+  DECLARE label_id INT;
+
+  SELECT `id` INTO artist_id FROM `iot_db`.`artist` WHERE `name` = artist_name;
+  SELECT `id` INTO label_id FROM `iot_db`.`label` WHERE `name` = label_name;
+
+  IF artist_id IS NOT NULL AND label_id IS NOT NULL THEN
+    INSERT INTO `iot_db`.`artistlabel` (`artist_id`, `label_id`) VALUES (artist_id, label_id);
+  ELSE
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Artist or Label does not exist';
+  END IF;
+END //
+DELIMITER ;
+
+
+
 

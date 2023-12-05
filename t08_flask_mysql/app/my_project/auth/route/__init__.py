@@ -31,6 +31,7 @@ def register_routes(app: Flask) -> None:
     from .orders.listeninghistory_route import listeninghistories_bp
     from .orders.currentlistening_route import currentlistening_bp
     from .orders.currentlisteningdevice_route import currentlisteningdevice_bp
+    from .orders.device_info_route import device_info_bp
 
     app.register_blueprint(user_bp)
     app.register_blueprint(artist_bp)

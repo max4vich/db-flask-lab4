@@ -10,8 +10,19 @@ from flask import Blueprint, jsonify, Response, request, make_response
 
 from t08_flask_mysql.app.my_project.auth.controller import artist_controller
 from t08_flask_mysql.app.my_project.auth.domain import Artist
+from t08_flask_mysql.app.my_project.auth.dao import artist_dao
 
 artist_bp = Blueprint('artists', __name__, url_prefix='/artists')
+
+
+@artist_bp.route('/insert-rows-into-artists', methods=['POST'])
+def insert_rows_into_artists():
+    try:
+        artist_dao.insert_rows_into_artists()
+        return make_response(jsonify({"message": "Rows inserted successfully"}), 200)
+    except Exception as e:
+        return make_response(jsonify({"error": str(e)}), 500)
+
 
 
 @artist_bp.get('')

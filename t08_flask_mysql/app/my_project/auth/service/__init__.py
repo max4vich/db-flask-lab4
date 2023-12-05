@@ -19,6 +19,7 @@ from .orders.songgenre_service import SongGenreService
 from .orders.listeninghistory_service import ListeningHistoryService
 from .orders.currentlistening_service import CurrentListeningService
 from .orders.currentlisteningdevice_service import CurrentListeningDeviceService
+from .orders.device_info_service import DeviceInfoService
 
 user_service = UserService()
 artist_service = ArtistService()
@@ -35,3 +36,5 @@ songgenre_service = SongGenreService()
 listeninghistory_service = ListeningHistoryService()
 currentlistening_service = CurrentListeningService()
 currentlisteningdevice_service = CurrentListeningDeviceService()
+device_info_service = DeviceInfoService()
+

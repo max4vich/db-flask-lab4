@@ -21,3 +21,4 @@ from t08_flask_mysql.app.my_project.auth.domain.orders.songgenre import SongGenr
 from t08_flask_mysql.app.my_project.auth.domain.orders.listeninghistory import ListeningHistory
 from t08_flask_mysql.app.my_project.auth.domain.orders.currentlistening import CurrentListening
 from t08_flask_mysql.app.my_project.auth.domain.orders.currentlisteningdevice import CurrentListeningDevice
+from t08_flask_mysql.app.my_project.auth.domain.orders.device_info import DeviceInfo
